@@ -3,30 +3,37 @@ var cheerio = require('cheerio');
 var url = 'http://www.imooc.com/learn/348';
 
 
-function filterChapters(html){
+function filterChapters(html) {
 	var $ = cheerio.load(html);
-	var chapters = $('.mod-chapters');
-	// console.log(chapters);
+	var chapters = $('.chapter');
+	//console.log(chapters.length);
 	var data = [];
 
 	chapters.each(function(item) {
 		var c = $(this);
-		var title = c.find('strong').text();
+		var t = c.find('strong').text();
+		t = t.replace(/\ +/g, ""); //去掉空格
+		t = t.replace(/[ ]/g, ""); //去掉空格
+		t = t.replace(/[\r\n]/g, ""); //去掉回车换行		
 		var v = c.find('.video').children('li');
 		var d = {
-			title:title,
-			videos:[]
+			title: t,
+			videos: []
 		}
 
 		v.each(function(item) {
 			var a = $(this).find('a');
-            var t = a.text();
-            t = t.replace(/^\s+|\s+$/g,"");
-            var href = a.attr('href');
-            d.videos.push({
-            	title:t,
-            	href:href,
-            });
+			var t = a.text();
+			// t = t.replace(/^\s+|\s+$/g, "");
+			t = t.replace(/\ +/g, ""); //去掉空格
+			t = t.replace(/[ ]/g, ""); //去掉空格
+			t = t.replace(/[\r\n]/g, ""); //去掉回车换行
+			//console.log(t);
+			var href = a.attr('href');
+			d.videos.push({
+				title: t,
+				href: href,
+			});
 		});
 		data.push(d);
 		//console.log(d);
@@ -36,28 +43,28 @@ function filterChapters(html){
 
 }
 
-function printData(data){
-	data.forEach(function(item){
-		//console.log(item.title);
-		item.videos.forEach(function(item){
-			console.log("    ["+item.title+"]"+item.href);
+function printData(data) {
+	data.forEach(function(item) {
+		console.log(item.title+"\n");
+		item.videos.forEach(function(item) {
+			console.log("        [" + item.title + "]     " + item.href +"\n");
 		})
 	})
 }
 
-http.get(url,function(res){
+http.get(url, function(res) {
 	var html = "";
-	res.on('data',function(data){
+	res.on('data', function(data) {
 		html += data;
 	})
 
-	res.on('end',function(){
+	res.on('end', function() {
 		// console.log(html);
 		var data = filterChapters(html);
 		printData(data);
 	})
 
-	res.on('error',function(){
+	res.on('error', function() {
 		console.log('error');
 	})
 
