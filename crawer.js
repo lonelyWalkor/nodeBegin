@@ -12,9 +12,10 @@ function filterChapters(html) {
 	chapters.each(function(item) {
 		var c = $(this);
 		var t = c.find('strong').text();
-		t = t.replace(/\ +/g, ""); //去掉空格
+		/*t = t.replace(/\ +/g, ""); //去掉空格
 		t = t.replace(/[ ]/g, ""); //去掉空格
-		t = t.replace(/[\r\n]/g, ""); //去掉回车换行		
+		t = t.replace(/[\r\n]/g, ""); //去掉回车换行		*/
+		t = t.replace(/[\r\n \ ]/g, "");
 		var v = c.find('.video').children('li');
 		var d = {
 			title: t,
@@ -25,9 +26,10 @@ function filterChapters(html) {
 			var a = $(this).find('a');
 			var t = a.text();
 			// t = t.replace(/^\s+|\s+$/g, "");
-			t = t.replace(/\ +/g, ""); //去掉空格
-			t = t.replace(/[ ]/g, ""); //去掉空格
-			t = t.replace(/[\r\n]/g, ""); //去掉回车换行
+			//t = t.replace(/\ +/g, ""); //去掉空格
+			//t = t.replace(/[ ]/g, ""); //去掉空格
+			//t = t.replace(/[\r\n]/g, ""); //去掉回车换行
+			t = t.replace(/[\r\n \ ]/g, ""); //去掉回车换行
 			//console.log(t);
 			var href = a.attr('href');
 			d.videos.push({
