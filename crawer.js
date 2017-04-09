@@ -21,6 +21,7 @@ function filterChapters(html){
 		v.each(function(item) {
 			var a = $(this).find('a');
             var t = a.text();
+            t = t.replace(/^\s+|\s+$/g,"");
             var href = a.attr('href');
             d.videos.push({
             	title:t,
@@ -37,10 +38,9 @@ function filterChapters(html){
 
 function printData(data){
 	data.forEach(function(item){
-		console.log(item.title);
+		//console.log(item.title);
 		item.videos.forEach(function(item){
-			console.log("      "+item.title);
-			console.log("      "+item.href);
+			console.log("    ["+item.title+"]"+item.href);
 		})
 	})
 }
