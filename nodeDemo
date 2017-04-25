@@ -1,1 +1,9 @@
+var express = require('express');
+var app = express();
 
+app.set('view engine','jade');
+app.set('port',8888);
+
+app.get('/',function(req,res){
+  res.render('index',{title:'imooc'});
+})
