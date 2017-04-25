@@ -5,7 +5,8 @@ var app = express();
 //app.set('port',8888);
 
 app.get('/',function(req,res){
-  res.render('index',{title:'imooc'});
+  //res.render('index',{title:'imooc'});
+  res.send('Hello World!');
 })
 
 // 监听 8888 端口，开启服务器
