@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+
+<body>
+
+
+
+<script>
+
+var worker = new SharedWorker("https://github.com/lonelyWalkor/nodeBegin/blob/master/sharedWorker.js");
+worker.onerror = function(errorEvent){
+	console.log(errorEvent);
+}
+console.log(worker);
+worker.port.start();
+worker.port.onmessage = function(event){
+	console.log(event);
+	var receivedData = event.data;
+}
+setInterval(function(){
+	worker.port.postMessage("foo");
+},500);
+
+</script>
+</body>
+</html>
